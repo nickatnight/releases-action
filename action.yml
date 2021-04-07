@@ -1,0 +1,45 @@
+name: "releases-action"
+description: "Create a new release"
+author: "nickatnight"
+
+branding:
+  icon: "arrow-down"
+  color: "purple"
+
+inputs:
+  branch:
+    description: "Name of branch to release from"
+    required: false
+    default: "master"
+  name:
+    description: "Name of the release"
+    required: false
+  message:
+    description: "Message for the release"
+    required: false
+  draft:
+    description: "Draft or naw?"
+    required: false
+    default: "false"
+  prerelease:
+    description: "Pre-release or naw"
+    required: false
+    default: "false"
+  tag:
+    description: "Name of tag"
+    required: false
+
+outputs:
+  release_tag:
+    description: "Version tag of new release"
+
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  args:
+    - ${{ inputs.branch }}
+    - ${{ inputs.name }}
+    - ${{ inputs.message }}
+    - ${{ inputs.draft }}
+    - ${{ inputs.prerelease }}
+    - ${{ inputs.tag }}

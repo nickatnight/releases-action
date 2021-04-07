@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+
+set -u
+
+cd /github/workspace || exit 1
+
+# Env and options
+if [[ -z ${GITHUB_TOKEN} ]]
+then
+    echo "The GITHUB_TOKEN environment variable is not defined."
+    exit 1
+fi
+
+BRANCH=${1}
+NAME=${2}
+MESSAGE=${3}
+DRAFT=${4}
+PRERELEASE=${5}
+TAG=${6}
+PREVIOUS_TAG=$(git describe --abbrev=0 --tags $(git rev-list --tags --skip=1 --max-count=1))
+
+echo "Previous tag: ${PREVIOUS_TAG}"
+
+if [[ -z ${TAG} ]]; then
+  TAG=$(git describe --tags --match=* --abbrev=0)
+fi
+
+if [[ -z ${NAME} ]]; then
+    if [[ ${TAG:0:1} == "v" ]]; then
+	    NAME="Release ${TAG}"
+    else
+        NAME="Release v${TAG}"
+    fi
+fi
+
+if [[ -z ${MESSAGE} ]]; then
+  MESSAGE=$(git log --pretty=format:"* %s (%h)" ${PREVIOUS_TAG}...HEAD)
+  MESSAGE="Changelog:"$'\n'"${MESSAGE}"
+fi
+
+echo "Next Tag: ${TAG}"
+echo "Next Release: ${NAME}"
+
+echo "${MESSAGE}"
+
+JSON_STRING=$( jq -n \
+            --arg tn "$TAG" \
+            --arg tc "$BRANCH" \
+            --arg n "$NAME" \
+            --arg b "$MESSAGE" \
+            --argjson d "$DRAFT" \
+            --argjson p "$PRERELEASE" \
+            '{tag_name: $tn, target_commitish: $tc, name: $n, body: $b, draft: $d, prerelease: $p}' )
+echo ${JSON_STRING}
+OUTPUT=$(curl -s --data "${JSON_STRING}" "https://api.github.com/repos/${GITHUB_REPOSITORY}/releases?access_token=${GITHUB_TOKEN}")
+echo ${OUTPUT} | jq
+
+echo ::set-output name=release_tag::${TAG}
