@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://github.com/nickatnight/releases-action"><img alt="GitHub Actions status" src="https://github.com/nickatnight/releases-action/workflows/release-it/badge.svg"></a>
+  <a href="https://github.com/nickatnight/releases-action/actions"><img alt="GitHub Actions status" src="https://github.com/nickatnight/releases-action/actions/workflows/main.yml/badge.svg"></a>
   <a href="https://github.com/nickatnight/releases-action/releases"><img alt="Release Status" src="https://img.shields.io/github/v/release/nickatnight/releases-action"></a>
 </p>
 
