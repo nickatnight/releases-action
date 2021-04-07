@@ -1,0 +1,20 @@
+name: release-it
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Create Release
+        id: create_release
+        uses: nickatnight/releases-action@master
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    outputs:
+      ReleaseTag: ${{ steps.create_release.outputs.release_tag }}

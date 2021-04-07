@@ -1,11 +1,10 @@
 <p align="center">
-  <!-- <a href="https://github.com/nickatnight/releases-action"><img alt="GitHub Actions status" src="https://github.com/nickatnight/releases-action/workflows/test-action/badge.svg"></a> -->
+  <a href="https://github.com/nickatnight/releases-action"><img alt="GitHub Actions status" src="https://github.com/nickatnight/releases-action/workflows/release-it/badge.svg"></a>
   <a href="https://github.com/nickatnight/releases-action/releases"><img alt="Release Status" src="https://img.shields.io/github/v/release/nickatnight/releases-action"></a>
 </p>
 
 
 # releases-action
-
 A GitHub action to create a release from branch when pushing a new tag.
 
 Other notable packages that did not satisfy my use case:
