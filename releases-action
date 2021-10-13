@@ -55,6 +55,7 @@ PAYLOAD=$(cat <<-END
     }
 END
 )
+echo ${PAYLOAD}
 # JSON_STRING=$( jq -n \
 #             --arg tn "$TAG" \
 #             --arg tc "$BRANCH" \
