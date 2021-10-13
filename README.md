@@ -10,7 +10,7 @@ A GitHub action to create a release from branch when pushing a new tag.
 Other notable packages that did not satisfy my use case:
 * https://github.com/softprops/action-gh-release (can not release from branch)
 * https://github.com/release-it/release-it (npm package rather than an action, but still could not release from branch)
-* https://github.com/aaiezza/create-release (too bloated with features/libraries I don't need)
+* https://github.com/aaiezza/create-release (too bloated with features/libraries I don't need, and relies on deprecated auth method)
 
 ## Usage
 ```yaml
