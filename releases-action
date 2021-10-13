@@ -34,6 +34,12 @@ if [[ -z ${NAME} ]]; then
     fi
 fi
 
+if [[ -z ${MESSAGE} ]]; then
+    GENERATE_RELEASE_NOTES=true
+else
+    echo "Message: ${MESSAGE}"
+fi
+
 echo "Next Tag: ${TAG}"
 echo "Next Release: ${NAME}"
 
@@ -41,18 +47,11 @@ JSON_STRING=$( jq -n \
             --arg tn "$TAG" \
             --arg tc "$BRANCH" \
             --arg n "$NAME" \
+            --arg b "$MESSAGE" \
             --argjson d "$DRAFT" \
             --argjson p "$PRERELEASE" \
             --argjson grn "$GENERATE_RELEASE_NOTES" \
-            '{tag_name: $tn, target_commitish: $tc, name: $n, draft: $d, prerelease: $p, ' )
-
-if [[ -z ${MESSAGE} ]]; then
-    JSON_STRING="${JSON_STRING}generate_release_notes: true}"
-else
-    JSON_STRING="${JSON_STRING}body: ${MESSAGE}}"
-    echo "Message: ${MESSAGE}"
-fi
-
+            '{tag_name: $tn, target_commitish: $tc, name: $n, body: $b, draft: $d, prerelease: $p, generate_release_notes: $gnr} | with_entries( select( .value != "" ) )' )
 
 echo ${JSON_STRING}
 OUTPUT=$(curl --silent --header "Authorization: token ${GITHUB_TOKEN}" --data "${JSON_STRING}" "https://api.github.com/repos/${GITHUB_REPOSITORY}/releases")
