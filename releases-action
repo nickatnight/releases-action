@@ -41,7 +41,7 @@ fi
 echo "Next Tag: ${TAG}"
 echo "Next Release: ${NAME}"
 
-echo "${MESSAGE}"
+echo "Message: ${MESSAGE}"
 
 JSON_STRING=$( jq -n \
             --arg tn "$TAG" \
@@ -54,7 +54,7 @@ JSON_STRING=$( jq -n \
             '{tag_name: $tn, target_commitish: $tc, name: $n, body: $b, draft: $d, prerelease: $p, generate_release_notes: $grn}' )
 
 echo ${JSON_STRING}
-OUTPUT=$(curl -s --data "${JSON_STRING}" "https://api.github.com/repos/${GITHUB_REPOSITORY}/releases?access_token=${GITHUB_TOKEN}")
+OUTPUT=$(curl --silent --header "Authorization: token ${GITHUB_TOKEN}" --data "${JSON_STRING}" "https://api.github.com/repos/${GITHUB_REPOSITORY}/releases")
 echo ${OUTPUT} | jq
 
 echo ::set-output name=release_tag::${TAG}
