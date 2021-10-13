@@ -17,7 +17,6 @@ inputs:
   message:
     description: "Message for the release"
     required: false
-    default: ""
   draft:
     description: "Draft or naw?"
     required: false
