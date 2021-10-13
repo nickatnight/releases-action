@@ -51,7 +51,7 @@ JSON_STRING=$( jq -n \
             --argjson d "$DRAFT" \
             --argjson p "$PRERELEASE" \
             --argjson grn "$GENERATE_RELEASE_NOTES" \
-            '{tag_name: $tn, target_commitish: $tc, name: $n, body: $b, draft: $d, prerelease: $p, generate_release_notes: $gnr} | with_entries( select( .value != "" ) )' )
+            '{tag_name: $tn, target_commitish: $tc, name: $n, body: $b, draft: $d, prerelease: $p, generate_release_notes: $grn} | with_entries( select( .value != "" ) )' )
 
 echo ${JSON_STRING}
 OUTPUT=$(curl --silent --header "Authorization: token ${GITHUB_TOKEN}" --data "${JSON_STRING}" "https://api.github.com/repos/${GITHUB_REPOSITORY}/releases")
