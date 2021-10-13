@@ -43,30 +43,18 @@ echo "Next Release: ${NAME}"
 
 echo "${MESSAGE}"
 
-PAYLOAD=$(cat <<-END
-    {
-        "tag_name": "${TAG}",
-        "target_commitish": "${BRANCH}",
-        "name": "${NAME}",
-        "body": "${MESSAGE}",
-        "draft": ${DRAFT},
-        "prerelease": ${PRERELEASE},
-        "generate_release_notes": ${GENERATE_RELEASE_NOTES}
-    }
-END
-)
-echo ${PAYLOAD}
-# JSON_STRING=$( jq -n \
-#             --arg tn "$TAG" \
-#             --arg tc "$BRANCH" \
-#             --arg n "$NAME" \
-#             --arg b "$MESSAGE" \
-#             --argjson d "$DRAFT" \
-#             --argjson p "$PRERELEASE" \
-#             --argjson grn "$GENERATE_RELEASE_NOTES" \
-#             '{tag_name: $tn, target_commitish: $tc, name: $n, body: $b, draft: $d, prerelease: $p, generate_release_notes: $grn}' )
-# echo ${JSON_STRING}
-OUTPUT=$(curl -s --data "${PAYLOAD}" "https://api.github.com/repos/${GITHUB_REPOSITORY}/releases?access_token=${GITHUB_TOKEN}")
+JSON_STRING=$( jq -n \
+            --arg tn "$TAG" \
+            --arg tc "$BRANCH" \
+            --arg n "$NAME" \
+            --arg b "$MESSAGE" \
+            --argjson d "$DRAFT" \
+            --argjson p "$PRERELEASE" \
+            --argjson grn "$GENERATE_RELEASE_NOTES" \
+            '{tag_name: $tn, target_commitish: $tc, name: $n, body: $b, draft: $d, prerelease: $p, generate_release_notes: $grn}' )
+
+echo ${JSON_STRING}
+OUTPUT=$(curl -s --data "${JSON_STRING}" "https://api.github.com/repos/${GITHUB_REPOSITORY}/releases?access_token=${GITHUB_TOKEN}")
 echo ${OUTPUT} | jq
 
 echo ::set-output name=release_tag::${TAG}
