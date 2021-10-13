@@ -35,6 +35,8 @@ if [[ -z ${NAME} ]]; then
 fi
 
 if [[ -z ${MESSAGE} ]]; then
+    # NOTE: If there were no pull requests associated with the commits included in the release
+    # no notes will be generated.
     GENERATE_RELEASE_NOTES=true
 else
     echo "Message: ${MESSAGE}"
