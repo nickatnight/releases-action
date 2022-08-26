@@ -12,11 +12,14 @@ Other notable packages that did not satisfy my use case:
 * https://github.com/release-it/release-it (npm package rather than an action, but still could not release from branch)
 * https://github.com/aaiezza/create-release (too bloated with features/libraries I don't need, and relies on deprecated auth method)
 
-## Usage
+## Usage 1
 ```yaml
-name: Tag it
+name: Tag it with defaults
 
-on: push
+on:
+  push:
+    tags:
+      - "*"
 
 jobs:
   create-release:
@@ -38,6 +41,47 @@ jobs:
 
   # pass in as env variable
   explore-essos:
+    runs-on: ubuntu-latest
+    needs: [create-release]
+    env:
+      RELEASE_TAG: ${{ needs.create-release.outputs.ReleaseTag }}
+    steps:
+      ...
+
+```
+## Usage 2
+```yaml
+name: Tag it with parameters
+
+on:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Create Release
+        id: create_release
+        uses: nickatnight/releases-action@v3
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          branch: "main"
+          name: "Gryffindor Release"
+          message: "Yer a wizard Harry"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    outputs:
+      ReleaseTag: ${{ steps.create_release.outputs.release_tag }}
+
+  # pass in as env variable
+  conquer-muggles:
     runs-on: ubuntu-latest
     needs: [create-release]
     env:

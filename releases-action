@@ -22,10 +22,12 @@ PREVIOUS_TAG=$(git describe --abbrev=0 --tags $(git rev-list --tags --skip=1 --m
 
 echo "Previous tag: ${PREVIOUS_TAG}"
 
+# if no tagged is supplied, pull the most recently pushed tag (the tag that triggered this action)
 if [[ -z ${TAG} ]]; then
   TAG=$(git describe --tags --match=* --abbrev=0)
 fi
 
+# basic formatting check to or to not prepend "v" to tag
 if [[ -z ${NAME} ]]; then
     if [[ ${TAG:0:1} == "v" ]]; then
 	    NAME="Release ${TAG}"
