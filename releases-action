@@ -58,7 +58,7 @@ JSON_STRING=$( jq -n \
             '{tag_name: $tn, target_commitish: $tc, name: $n, body: $b, draft: $d, prerelease: $p, generate_release_notes: $grn} | with_entries( select( .value != "" ) )' )
 
 echo ${JSON_STRING}
-OUTPUT=$(curl --silent --header "Authorization: token ${GITHUB_TOKEN}" --data "${JSON_STRING}" "https://api.github.com/repos/${GITHUB_REPOSITORY}/releases")
+OUTPUT=$(curl --silent --header "Authorization: Bearer ${GITHUB_TOKEN}" --header "Content-Type: application/vnd.github+json" --header "X-GitHub-Api-Version: 2022-11-28" --data "${JSON_STRING}" "https://api.github.com/repos/${GITHUB_REPOSITORY}/releases")
 echo ${OUTPUT} | jq
 
 echo ::set-output name=release_tag::${TAG}
