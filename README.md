@@ -31,7 +31,7 @@ jobs:
           fetch-depth: 0  # need this for all history for all branches and tags
       - name: Create Release
         id: create_release
-        uses: nickatnight/releases-action@v3
+        uses: nickatnight/releases-action@v4
         if: startsWith(github.ref, 'refs/tags/')
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -68,7 +68,7 @@ jobs:
           fetch-depth: 0
       - name: Create Release
         id: create_release
-        uses: nickatnight/releases-action@v3
+        uses: nickatnight/releases-action@v4
         if: startsWith(github.ref, 'refs/tags/')
         with:
           branch: "main"
