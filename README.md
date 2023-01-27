@@ -23,10 +23,11 @@ on:
 
 jobs:
   create-release:
+    permissions: write-all
     runs-on: ubuntu-latest
     steps:
       - name: checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0  # need this for all history for all branches and tags
       - name: Create Release
@@ -60,10 +61,11 @@ on:
 
 jobs:
   create-release:
+    permissions: write-all
     runs-on: ubuntu-latest
     steps:
       - name: checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: Create Release
