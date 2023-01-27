@@ -61,4 +61,4 @@ echo ${JSON_STRING}
 OUTPUT=$(curl --silent --header "Authorization: token ${GITHUB_TOKEN}" --data "${JSON_STRING}" "https://api.github.com/repos/${GITHUB_REPOSITORY}/releases")
 echo ${OUTPUT} | jq
 
-echo ::set-output name=release_tag::${TAG}
+echo "release_tag=${TAG}" >> $GITHUB_OUTPUT
