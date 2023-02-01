@@ -23,7 +23,8 @@ on:
 
 jobs:
   create-release:
-    permissions: write-all
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - name: checkout
@@ -32,7 +33,7 @@ jobs:
           fetch-depth: 0  # need this for all history for all branches and tags
       - name: Create Release
         id: create_release
-        uses: nickatnight/releases-action@v4
+        uses: nickatnight/releases-action@v5
         if: startsWith(github.ref, 'refs/tags/')
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -61,7 +62,8 @@ on:
 
 jobs:
   create-release:
-    permissions: write-all
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - name: checkout
@@ -70,7 +72,7 @@ jobs:
           fetch-depth: 0
       - name: Create Release
         id: create_release
-        uses: nickatnight/releases-action@v4
+        uses: nickatnight/releases-action@v5
         if: startsWith(github.ref, 'refs/tags/')
         with:
           branch: "main"
